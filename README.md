@@ -4,7 +4,7 @@ Simple Python application built using Flask.
 
 ## Pre-requisites
 
-1. You have Python3 installed.
+1. You have Python3.8 installed.
 
 2. You have Pip3 installed
 
@@ -14,17 +14,17 @@ Simple Python application built using Flask.
 
 ## Installation of dependencies
 
-Change directory to adp-takehome and use the package manager pip to install the dependencies in requirements.txt
+Change directory to cloned repository `autodesk-takehome` and use the package manager `pip3` to install the dependencies in `requirements.txt`
 
 ```bash
-cd <path to adp-takehome>
+cd <path to autodesk-takehome>
 pip3 install -r requirements.txt
 ```
 
 ## How to run the application locally
 
 ```bash
-cd <path to adp-takehome>
+cd <path to autodesk-takehome>
 python3 handlers/webapp.py
 ```
 
@@ -39,9 +39,8 @@ python3 handlers/webapp.py
    Expected Output:
 
    ```bash
-   {
-   "message": "Hello, World"
-   }
+   curl http://localhost:5000/ -H 'Accept:application/json'
+   {"message":"Hello, World"}
    ```
 
 2. Test condition for GET request with no Accept header :
@@ -53,7 +52,8 @@ python3 handlers/webapp.py
    Expected Output:
 
    ```bash
-   <p>Hello, World</p
+   curl 'http://localhost:5000/' -H 'Accept':
+   <p>Hello, World</p>%
    ```
 
 3. Test condition for any other GET requests:
@@ -67,7 +67,7 @@ python3 handlers/webapp.py
 4. Test POST request with payload:
 
    ```bash
-   curl -X POST --header 'Content-Type:application/json' --data '{"request_id":"123","payload":{"this":"that"} http://localhost:5000/
+   curl -X POST --header 'Content-Type:application/json' --data '{"request_id":"123","payload":{"this":"that"}}' http://localhost:5000/
    ```
 
    Expected Output: OK
@@ -86,13 +86,13 @@ python3 handlers/webapp.py
    curl -X POST --header 'Content-Type:application/json' --data '' http://localhost:5000/
    ```
 
-   Expected Output : NO DATA
+   Expected Output : No Ouput
 
 ## Enable debug mode logging
 
 ```bash
     export FLASK_DEBUG=1
-    python handlers/webapp.py
+    python3  handlers/webapp.py
 ```
 
 Informational logs will get written to record.log file by default but when debug is enabled, you will see Debug statements specifiying the type of request and the URL. Debug mode can be disabled by unloading the environment variable FLASK_DEBUG like
@@ -117,7 +117,7 @@ Expected Output:
 =============test session starts =============================================================
 platform darwin -- Python 3.8.5, pytest-7.2.0, pluggy-1.0.0 -- /Library/Frameworks/Python.framework/Versions/3.8/bin/python3.8
 cachedir: .pytest_cache
-rootdir: /Users/harshav/Desktop/adp-takehome/handlers
+rootdir: /Users/harshav/Desktop/autodesk-takehome/handlers
 collected 4 items
 
 test_webapp.py::test_get_request_success PASSED                                                                                                                                                      [ 25%]
@@ -142,12 +142,16 @@ docker run -p 5000:5000 adp:latest
 Expected Output:
 
 ```bash
-➜  adp-takehome git:(master) ✗ docker run -p 5000:5000  adp:version13
+➜ docker run -p 5000:5000 adp:latest
  * Serving Flask app 'webapp'
  * Debug mode: off
+2023-01-14 07:40:35 - INFO - WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.17.0.2:5000
 ```
 
-2. To run the application with debug enabled in docker run the below command:
+2. To run the application with debug mode enabled in docker run the below command:
 
 ```bash
 docker run -p 5000:5000 -e FLASK_DEBUG=1 adp:latest
@@ -156,9 +160,18 @@ docker run -p 5000:5000 -e FLASK_DEBUG=1 adp:latest
 Expected Output:
 
 ```bash
-➜  adp-takehome git:(master) ✗ docker run -p 5000:5000 --env FLASK_DEBUG=1 adp:version13
+docker run -p 5000:5000 -e FLASK_DEBUG=1 adp:latest
  * Serving Flask app 'webapp'
  * Debug mode: on
+2023-01-14 07:53:16 - INFO - WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.17.0.2:5000
+2023-01-14 07:53:16 - INFO - Press CTRL+C to quit
+2023-01-14 07:53:16 - INFO -  * Restarting with stat
+2023-01-14 07:53:17 - WARNING -  * Debugger is active!
+2023-01-14 07:53:17 - INFO -  * Debugger PIN: 803-553-163
+2023-01-14 07:53:21 - DEBUG - Debugging POST request for http://localhost:5000/
 ```
 
 3. To run unit tests on the dockerized application, run the below command:
@@ -170,7 +183,7 @@ docker run -p 5000:5000 --entrypoint "pytest" adp:latest
 Expected Output:
 
 ```bash
-➜ adp-takehome git:(master) ✗ docker run -p 5000:5000 --entrypoint "pytest" adp:version13
+➜ docker run -p 5000:5000 --entrypoint "pytest" adp:latest
 ============================= test session starts ==============================
 platform linux -- Python 3.8.16, pytest-7.2.0, pluggy-1.0.0
 rootdir: /adp
