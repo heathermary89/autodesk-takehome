@@ -90,6 +90,8 @@ python3 handlers/webapp.py
 
 ## Enable debug mode logging
 
+To enable debug mode for logging, run the below commands:
+
 ```bash
     export FLASK_DEBUG=1
     python3  handlers/webapp.py
